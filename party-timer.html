@@ -35,26 +35,6 @@
     font-size: 14px;
     color: #666;
   }
-  .category-box {
-    background: #fff;
-    border-radius: 16px;
-    padding: 32px 20px;
-    text-align: center;
-    margin-bottom: 24px;
-    border: 1px solid #e5e3db;
-  }
-  .category-label {
-    font-size: 12px;
-    color: #999;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin: 0 0 8px;
-  }
-  .category-name {
-    font-size: 26px;
-    font-weight: 600;
-    margin: 0;
-  }
   .timer-row {
     display: flex;
     align-items: center;
@@ -117,10 +97,6 @@
   <div class="player-row">
     <span id="playerLabel">Player 1</span>
   </div>
-  <div class="category-box">
-    <p class="category-label">Category</p>
-    <p class="category-name" id="category">-</p>
-  </div>
   <div class="timer-row">
     <div class="timer-num" id="timer">30</div>
     <div class="bar-track">
@@ -134,14 +110,12 @@
 </div>
 
 <script>
-const categories = ["Fruits","Animals","Movies","Countries","Sports","Colors","Jobs","Board games","Superheroes","Vegetables","Cities","Drinks","Musical instruments","Dance styles","Video games","Breakfast foods","Types of weather","School subjects","Car brands","Things in a kitchen"];
 let playerNum = 1;
 let timeLeft = 30;
 let timerInterval = null;
 
 function newTurn(){
   document.getElementById('playerLabel').textContent = 'Player ' + playerNum;
-  document.getElementById('category').textContent = categories[Math.floor(Math.random()*categories.length)];
   clearInterval(timerInterval);
   timeLeft = 30;
   const timerEl = document.getElementById('timer');
