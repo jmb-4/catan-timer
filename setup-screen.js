@@ -3,7 +3,6 @@
  */
 
 import { PLAYER_COLORS, DEFAULT_SETUP_TIME, DEFAULT_ACTION_TIME } from './config.js';
-import { nextAvailableColor } from './setup-logic.js';
 import { getPlayers, getSetupStep } from './game-state.js';
 import { resetAll as resetTimerAll } from './timer.js';
 
@@ -26,7 +25,9 @@ export function renderColorRows() {
   colorList.innerHTML = '';
 
   for (let i = 0; i < count; i++) {
-    const existing = players[i]?.color ?? nextAvailableColor(players, PLAYER_COLORS.map(c => c.value), i);
+    const existing = players[i]?.color ?? PLAYER_COLORS.map(c => c.value).find(
+      c => !players.slice(0, i).map(p => p.color).includes(c)
+    );
     const usedColors = players.slice(0, i).map(p => p.color);
 
     const row = document.createElement('div');

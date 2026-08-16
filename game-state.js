@@ -20,15 +20,26 @@ let state = {
   currentPlayerIndex: 0,
 };
 
-export function initGame(players, setupTime, actionTime) {
-  state.players       = players;
-  state.playerCount   = players.length;
-  state.setupTime     = setupTime;
-  state.actionTime    = actionTime;
-  state.phase        = PHASES.SETUP;
-  state.setupStep     = 0;
+export function resetState() {
+  state.phase              = PHASES.SETUP;
+  state.players            = [];
+  state.playerCount        = 6;
+  state.setupTime          = 60;
+  state.actionTime         = 60;
+  state.setupSequence      = [];
+  state.setupStep          = 0;
   state.currentPlayerIndex = 0;
-  state.setupSequence = buildSetupSequence(players.length);
+}
+
+export function initGame(players, setupTime, actionTime) {
+  state.players            = players;
+  state.playerCount        = players.length;
+  state.setupTime          = setupTime;
+  state.actionTime         = actionTime;
+  state.phase              = PHASES.SETUP;
+  state.setupStep          = 0;
+  state.currentPlayerIndex = 0;
+  state.setupSequence      = buildSetupSequence(players.length);
 }
 
 export function getPhase()              { return state.phase; }
@@ -37,8 +48,6 @@ export function getSetupStep()           { return state.setupStep; }
 export function getCurrentPlayerIndex() { return state.currentPlayerIndex; }
 export function getSetupTime()          { return state.setupTime; }
 export function getActionTime()         { return state.actionTime; }
-export function getPlayerCount()        { return state.playerCount; }
-
 export function getCurrentSetupStep() {
   return state.setupSequence[state.setupStep] ?? null;
 }

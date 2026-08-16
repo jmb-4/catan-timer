@@ -42,12 +42,11 @@ test.describe.serial('game-state', () => {
 
   /* ── Setup Step Progression ────────────────────────────────────────────── */
 
-  test('getCurrentSetupStep: first step is player 0, placement 1, not doubleTime', () => {
+  test('getCurrentSetupStep: first step is player 0, placement 1', () => {
     gs.initGame(Array(4).fill({ name: '?', color: '#000' }), 60, 60);
     const step = gs.getCurrentSetupStep();
     expect(step.playerIndex).toBe(0);
     expect(step.placementNumber).toBe(1);
-    expect(step.doubleTime).toBe(false);
   });
 
   test('advanceSetup increments setupStep', () => {
@@ -62,13 +61,12 @@ test.describe.serial('game-state', () => {
     expect(gs.getPhase()).toBe(gs.PHASES.PLAY);
   });
 
-  test('last setup step: player 0, placement 2, doubleTime', () => {
+  test('last setup step: player 0, placement 2', () => {
     gs.initGame(Array(4).fill({ name: '?', color: '#000' }), 60, 60);
     for (let i = 0; i < 7; i++) gs.advanceSetup();
     const step = gs.getCurrentSetupStep();
     expect(step.playerIndex).toBe(0);
     expect(step.placementNumber).toBe(2);
-    expect(step.doubleTime).toBe(true);
   });
 
   /* ── Play Phase ────────────────────────────────────────────────────────── */

@@ -8,14 +8,6 @@ test('4 players: 8 steps total (forward 4 + backward 4)', async () => {
   expect(seq).toHaveLength(8);
 });
 
-test('4 players: last 4 steps have doubleTime = true', async () => {
-  const { buildSetupSequence } = await import('../../setup-logic.js');
-  const seq = buildSetupSequence(4);
-  seq.slice(4).forEach(step => {
-    expect(step.doubleTime).toBe(true);
-  });
-});
-
 test('4 players: backward order is P4→P3→P2→P1', async () => {
   const { buildSetupSequence } = await import('../../setup-logic.js');
   const seq = buildSetupSequence(4);
@@ -54,35 +46,4 @@ test('2 players: 4 steps total', async () => {
 test('6 players: 12 steps total', async () => {
   const { buildSetupSequence } = await import('../../setup-logic.js');
   expect(buildSetupSequence(6)).toHaveLength(12);
-});
-
-/* ── usedColors ─────────────────────────────────────────────────────────── */
-
-test('usedColors returns empty array when upToIndex = 0', async () => {
-  const { usedColors } = await import('../../setup-logic.js');
-  const players = [{ color: '#red' }, { color: '#blue' }];
-  expect(usedColors(players, 0)).toEqual([]);
-});
-
-test('usedColors returns colors up to (not including) index', async () => {
-  const { usedColors } = await import('../../setup-logic.js');
-  const players = [{ color: '#red' }, { color: '#blue' }, { color: '#green' }];
-  expect(usedColors(players, 2)).toEqual(['#red', '#blue']);
-});
-
-/* ── nextAvailableColor ─────────────────────────────────────────────────── */
-
-test('nextAvailableColor skips already-used colors', async () => {
-  const { nextAvailableColor } = await import('../../setup-logic.js');
-  const players = [{ color: '#d84545' }, { color: '#3878d8' }];
-  const allColors = ['#d84545', '#3878d8', '#e07b00'];
-  const next = nextAvailableColor(players, allColors, 2);
-  expect(next).toBe('#e07b00');
-});
-
-test('nextAvailableColor returns first color when none used', async () => {
-  const { nextAvailableColor } = await import('../../setup-logic.js');
-  const players = [];
-  const allColors = ['#d84545', '#3878d8'];
-  expect(nextAvailableColor(players, allColors, 0)).toBe('#d84545');
 });

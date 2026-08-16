@@ -3,13 +3,11 @@
  */
 
 import {
-  PHASES,
   getPhase,
   getPlayers,
   getSetupStep,
   getCurrentSetupStep,
   advanceSetup,
-  getSetupSequenceLength,
   startPlayPhase,
   advancePlayer,
   getCurrentPlayerIndex,
@@ -49,25 +47,15 @@ function renderSetupPhase() {
   const step    = getCurrentSetupStep();
   if (!step) return;
 
-  phaseBanner.textContent = `Aufbauphase – Schritt ${getSetupStep() + 1} von ${getSetupSequenceLength()}`;
+  phaseBanner.textContent = `Aufbauphase – Schritt ${getSetupStep() + 1}`;
 
   playerListEl.innerHTML = players.map((p, i) => {
-    const isActive   = i === step.playerIndex;
-    const isPlacing2 = step.placementNumber === 2 && i === step.playerIndex;
-
-    let badge = '';
-    if (isActive) {
-      badge = isPlacing2
-        ? '<span class="placement-badge">2</span>'
-        : '<span class="placement-badge">1</span>';
-    }
-
+    const isActive = i === step.playerIndex;
     const borderStyle = p.border ? `border: 1px solid ${p.border}` : '';
     return `
-      <div class="player-info ${isActive ? 'active' : ''} ${isPlacing2 ? 'placing-both' : ''}">
+      <div class="player-info ${isActive ? 'active' : ''}">
         <div class="color-dot" style="background:${p.color}; ${borderStyle}"></div>
         <span class="player-name">${p.name}</span>
-        ${badge}
       </div>`;
   }).join('');
 

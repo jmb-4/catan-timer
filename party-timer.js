@@ -5,7 +5,8 @@
  * die globalen Event Listener.
  */
 
-import { initGame } from './game-state.js';
+import { resetState, initGame } from './game-state.js';
+import { PLAYER_COLORS, DEFAULT_SETUP_TIME, DEFAULT_ACTION_TIME } from './config.js';
 import { toggleTimer, resetAll } from './timer.js';
 import {
   renderColorRows,
@@ -21,6 +22,15 @@ const $ = id => document.getElementById(id);
 const playStartBtn = $('playStartBtn');
 
 /* ── Init ─────────────────────────────────────────────────── */
+
+resetState();
+initGame(
+  PLAYER_COLORS.slice(0, 6).map(c => ({ name: 'Spieler', color: c.value, border: c.border })),
+  DEFAULT_SETUP_TIME,
+  DEFAULT_ACTION_TIME,
+);
+resetAll();
+showSetupScreen();
 
 renderColorRows();
 
