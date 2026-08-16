@@ -56,20 +56,6 @@ test.describe.serial('game-state', () => {
     expect(gs.getSetupStep()).toBe(1);
   });
 
-  test('isSetupDoubleTime: false for forward steps', () => {
-    gs.initGame(Array(4).fill({ name: '?', color: '#000' }), 60, 60);
-    expect(gs.isSetupDoubleTime()).toBe(false);
-  });
-
-  test('isSetupDoubleTime: true for backward steps', () => {
-    gs.initGame(Array(4).fill({ name: '?', color: '#000' }), 60, 60);
-    gs.advanceSetup(); // step 1
-    gs.advanceSetup(); // step 2
-    gs.advanceSetup(); // step 3 = P3 forward (still false)
-    gs.advanceSetup(); // step 4 = P4 backward (double starts here)
-    expect(gs.isSetupDoubleTime()).toBe(true);
-  });
-
   test('advanceSetup transitions to PLAY after last step', () => {
     gs.initGame(Array(4).fill({ name: '?', color: '#000' }), 60, 60);
     for (let i = 0; i < 8; i++) gs.advanceSetup();

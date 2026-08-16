@@ -1,3 +1,5 @@
+import { buildSetupSequence } from './setup-logic.js';
+
 /**
  * GameState – zentraler State für das Spiel.
  */
@@ -26,7 +28,7 @@ export function initGame(players, setupTime, actionTime) {
   state.phase        = PHASES.SETUP;
   state.setupStep     = 0;
   state.currentPlayerIndex = 0;
-  state.setupSequence = buildSequence(players.length);
+  state.setupSequence = buildSetupSequence(players.length);
 }
 
 export function getPhase()              { return state.phase; }
@@ -39,11 +41,6 @@ export function getPlayerCount()        { return state.playerCount; }
 
 export function getCurrentSetupStep() {
   return state.setupSequence[state.setupStep] ?? null;
-}
-
-export function isSetupDoubleTime() {
-  const step = getCurrentSetupStep();
-  return step ? step.doubleTime : false;
 }
 
 export function advanceSetup() {
@@ -64,14 +61,4 @@ export function advancePlayer() {
 
 export function getSetupSequenceLength() {
   return state.setupSequence.length;
-}
-
-function buildSequence(playerCount) {
-  const forward  = Array.from({ length: playerCount }, (_, i) => i);
-  const backward = [...forward].reverse();
-
-  return [
-    ...forward.map(i => ({ playerIndex: i, placementNumber: 1, doubleTime: false })),
-    ...backward.map(i => ({ playerIndex: i, placementNumber: 2, doubleTime: true  })),
-  ];
 }

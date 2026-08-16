@@ -70,6 +70,19 @@ export function isRunning() {
   return state.isRunning;
 }
 
+/** Setzt den gesamten Timer-State zurück (inkl. intervalId) */
+export function resetAll() {
+  state.timeLeft  = 60;
+  state.totalTime = 60;
+  state.isRunning = false;
+  if (state.intervalId !== null) {
+    clearInterval(state.intervalId);
+    state.intervalId = null;
+  }
+  updateDOM();
+  updatePlayButton();
+}
+
 /* ── DOM-Update ─────────────────────────────────────────── */
 
 function updateDOM() {
