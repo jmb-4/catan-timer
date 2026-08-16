@@ -61,7 +61,7 @@ function renderSetupPhase() {
         : '<span class="placement-badge">1</span>';
     }
 
-    const borderStyle = p.color === '#f4f3ef' ? 'border: 1px solid #ccc' : '';
+    const borderStyle = p.border ? `border: 1px solid ${p.border}` : '';
     return `
       <div class="player-info ${isActive ? 'active' : ''} ${isPlacing2 ? 'placing-both' : ''}">
         <div class="color-dot" style="background:${p.color}; ${borderStyle}"></div>
@@ -83,7 +83,7 @@ function renderPlayPhase() {
 
   playerListEl.innerHTML = players.map((p, i) => {
     const isActive    = i === activeIdx;
-    const borderStyle = p.color === '#f4f3ef' ? 'border: 1px solid #ccc' : '';
+    const borderStyle = p.border ? `border: 1px solid ${p.border}` : '';
     return `
       <div class="player-info ${isActive ? 'active' : ''}">
         <div class="color-dot" style="background:${p.color}; ${borderStyle}"></div>

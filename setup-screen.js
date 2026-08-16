@@ -48,10 +48,15 @@ export function renderColorRows() {
 export function getPlayersFromDOM() {
   const count = parseInt(playerCount.value, 10);
   const rows = colorList.querySelectorAll('.player-color-row');
-  return Array.from(rows).map((row, i) => ({
-    name:  `Spieler ${i + 1}`,
-    color: row.querySelector('.player-color').value,
-  }));
+  return Array.from(rows).map((row, i) => {
+    const colorVal = row.querySelector('.player-color').value;
+    const colorDef = PLAYER_COLORS.find(c => c.value === colorVal);
+    return {
+      name:  `Spieler ${i + 1}`,
+      color: colorVal,
+      border: colorDef?.border ?? null,
+    };
+  });
 }
 
 /* ── Show Setup Screen ─────────────────────────────────────── */
