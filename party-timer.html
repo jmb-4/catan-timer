@@ -1,161 +1,321 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>30 Second Party Game</title>
-<style>
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 24px 20px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #f4f3ef;
-    color: #1a1a18;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-  }
-  .card {
-    width: 100%;
-    max-width: 420px;
-  }
-  h1 {
-    font-size: 18px;
-    font-weight: 600;
-    text-align: center;
-    margin: 0 0 24px;
-  }
-  .player-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 12px;
-    font-size: 14px;
-    color: #666;
-  }
-  .timer-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-  .timer-num {
-    font-size: 48px;
-    font-weight: 700;
-    min-width: 90px;
-  }
-  .bar-track {
-    flex: 1;
-    height: 10px;
-    background: #e5e3db;
-    border-radius: 5px;
-    overflow: hidden;
-  }
-  .bar-fill {
-    height: 100%;
-    width: 100%;
-    background: #3878d8;
-    transition: width 1s linear, background 0.3s;
-  }
-  .bar-fill.low { background: #d84545; }
-  .buttons {
-    display: flex;
-    gap: 10px;
-  }
-  button {
-    flex: 1;
-    padding: 16px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-  }
-  #startBtn {
-    background: #1a1a18;
-    color: #fff;
-  }
-  #startBtn:disabled {
-    background: #999;
-  }
-  #nextBtn {
-    background: #fff;
-    color: #1a1a18;
-    border: 1px solid #d5d3c9;
-  }
-  .times-up {
-    color: #d84545;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catan Timer</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 24px 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f4f3ef;
+      color: #1a1a18;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .screen {
+      display: none;
+    }
+    .screen.active {
+      display: block;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      margin: 0 0 24px;
+    }
+
+    h2 {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 0 0 12px;
+      color: #555;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 6px;
+    }
+
+    select,
+    input[type="number"] {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 15px;
+      border: 1px solid #d5d3c9;
+      border-radius: 10px;
+      background: #fff;
+      color: #1a1a18;
+      margin-bottom: 16px;
+      appearance: none;
+    }
+
+    .player-colors {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .player-color-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .player-color-row span {
+      font-size: 14px;
+      color: #555;
+      min-width: 90px;
+    }
+
+    .player-color-row select {
+      flex: 1;
+      margin-bottom: 0;
+      padding: 8px 12px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-primary {
+      background: #1a1a18;
+      color: #fff;
+    }
+
+    .btn-primary:disabled {
+      background: #999;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: #1a1a18;
+      border: 1px solid #d5d3c9;
+    }
+
+    .btn + .btn {
+      margin-top: 10px;
+    }
+
+    /* ── Play screen ── */
+
+    .player-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .player-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e5e3db;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .player-info.active {
+      border-color: #3878d8;
+      background: #f0f5ff;
+      color: #1a1a18;
+      font-weight: 600;
+    }
+
+    .player-info.placing-both {
+      border-color: #e07b00;
+      background: #fff8ee;
+      color: #1a1a18;
+    }
+
+    .color-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .player-name {
+      flex: 1;
+    }
+
+    .placement-badge {
+      font-size: 11px;
+      font-weight: 600;
+      background: #e07b00;
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+
+    .phase-banner {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #3878d8;
+      background: #eef4ff;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+
+    .timer-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .timer-num {
+      font-size: 48px;
+      font-weight: 700;
+      min-width: 90px;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 10px;
+      background: #e5e3db;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 100%;
+      background: #3878d8;
+      transition: width 1s linear, background 0.3s;
+    }
+
+    .bar-fill.low {
+      background: #d84545;
+    }
+
+    .times-up {
+      color: #d84545;
+    }
+
+    .play-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .play-buttons button {
+      flex: 1;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #playStartBtn {
+      background: #1a1a18;
+      color: #fff;
+    }
+
+    #playStartBtn:disabled {
+      background: #999;
+    }
+
+    #robberBtn {
+      background: #fff;
+      color: #d84545;
+      border: 1px solid #d84545;
+    }
+
+    #nextBtn {
+      background: #fff;
+      color: #1a1a18;
+      border: 1px solid #d5d3c9;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-<div class="card">
-  <h1>30 second party game</h1>
-  <div class="player-row">
-    <span id="playerLabel">Player 1</span>
-  </div>
-  <div class="timer-row">
-    <div class="timer-num" id="timer">30</div>
-    <div class="bar-track">
-      <div class="bar-fill" id="bar"></div>
+  <div class="card">
+
+    <!-- ── Setup Screen ── -->
+    <div id="setupScreen" class="screen active">
+      <h1>Catan Timer</h1>
+
+      <label for="playerCount">Anzahl Spieler</label>
+      <select id="playerCount">
+        <option value="2">2 Spieler</option>
+        <option value="3">3 Spieler</option>
+        <option value="4">4 Spieler</option>
+        <option value="5">5 Spieler</option>
+        <option value="6" selected>6 Spieler</option>
+      </select>
+
+      <h2>Spieler-Farben</h2>
+      <div id="playerColorList" class="player-colors"></div>
+
+      <label for="setupTime">Aufbauzeit pro Spieler (Sekunden)</label>
+      <input type="number" id="setupTime" value="60" min="10" max="300" />
+
+      <label for="actionTime">Aktionszeit pro Runde (Sekunden)</label>
+      <input type="number" id="actionTime" value="60" min="10" max="300" />
+
+      <button id="startBtn" class="btn btn-primary">Spiel starten</button>
     </div>
+
+    <!-- ── Play Screen ── -->
+    <div id="playScreen" class="screen">
+      <h1>Catan Timer</h1>
+
+      <div id="phaseBanner" class="phase-banner">Aufbauphase</div>
+
+      <div id="playerList" class="player-list"></div>
+
+      <div class="timer-row">
+        <div id="timer" class="timer-num">60</div>
+        <div class="bar-track">
+          <div id="bar" class="bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="play-buttons">
+        <button id="playStartBtn">Start</button>
+        <button id="robberBtn">Räuber (+15s)</button>
+      </div>
+
+      <button id="nextBtn" class="btn btn-secondary">Nächster Spieler</button>
+      <button id="backBtn" class="btn btn-secondary">Zurück</button>
+    </div>
+
   </div>
-  <div class="buttons">
-    <button id="startBtn" onclick="startTimer()">Start</button>
-    <button id="nextBtn" onclick="nextPlayer()">Next player</button>
-  </div>
-</div>
 
-<script>
-let playerNum = 1;
-let timeLeft = 30;
-let timerInterval = null;
-
-function newTurn(){
-  document.getElementById('playerLabel').textContent = 'Player ' + playerNum;
-  clearInterval(timerInterval);
-  timeLeft = 30;
-  const timerEl = document.getElementById('timer');
-  const barEl = document.getElementById('bar');
-  timerEl.textContent = timeLeft;
-  timerEl.classList.remove('times-up');
-  barEl.style.width = '100%';
-  barEl.classList.remove('low');
-  const startBtn = document.getElementById('startBtn');
-  startBtn.textContent = 'Start';
-  startBtn.disabled = false;
-}
-
-function startTimer(){
-  const startBtn = document.getElementById('startBtn');
-  startBtn.disabled = true;
-  startBtn.textContent = 'Running';
-  timerInterval = setInterval(()=>{
-    timeLeft--;
-    const clamped = Math.max(timeLeft,0);
-    const timerEl = document.getElementById('timer');
-    const barEl = document.getElementById('bar');
-    timerEl.textContent = clamped;
-    barEl.style.width = (clamped/30*100) + '%';
-    if(clamped <= 10){ barEl.classList.add('low'); }
-    if(timeLeft <= 0){
-      clearInterval(timerInterval);
-      timerEl.textContent = "Time's up";
-      timerEl.classList.add('times-up');
-      startBtn.textContent = "Time's up";
-    }
-  },1000);
-}
-
-function nextPlayer(){
-  playerNum++;
-  newTurn();
-}
-
-newTurn();
-</script>
+  <script type="module" src="party-timer.js"></script>
 </body>
 </html>
