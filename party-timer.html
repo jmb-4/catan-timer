@@ -7,12 +7,37 @@
   <style>
     * { box-sizing: border-box; }
 
+    /* ── Catan color palette ──
+       Ocean:     deep sea blue
+       Parchment: board frame cream
+       Brick:     hills red-orange
+       Wood:      forest green
+       Ore:       mountain gray
+       Wheat:     fields gold
+       Sheep:     pasture light green
+       Desert:    sand
+    */
+
+    :root {
+      --ocean:    #1a3a52;
+      --ocean-2:  #234c6e;
+      --parchment: #f5ecd6;
+      --parchment-2: #ebe0c4;
+      --ink:      #2b2018;
+      --brick:    #c75b39;
+      --wood:     #3d6b35;
+      --ore:      #5a5a5a;
+      --wheat:    #d4a843;
+      --sheep:    #7ab33f;
+      --desert:   #e8d5a0;
+    }
+
     body {
       margin: 0;
       padding: 24px 20px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f4f3ef;
-      color: #1a1a18;
+      background: linear-gradient(160deg, var(--ocean) 0%, var(--ocean-2) 100%);
+      color: var(--ink);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -22,34 +47,38 @@
     .card {
       width: 100%;
       max-width: 420px;
+      background: var(--parchment);
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      border: 1px solid var(--parchment-2);
     }
 
-    .screen {
-      display: none;
-    }
-    .screen.active {
-      display: block;
-    }
+    .screen { display: none; }
+    .screen.active { display: block; }
 
     h1 {
-      font-size: 18px;
-      font-weight: 600;
+      font-size: 20px;
+      font-weight: 700;
       text-align: center;
       margin: 0 0 24px;
+      color: var(--ocean);
+      letter-spacing: 0.02em;
     }
 
     h2 {
       font-size: 15px;
       font-weight: 600;
       margin: 0 0 12px;
-      color: #555;
+      color: var(--ore);
     }
 
     label {
       display: block;
       font-size: 13px;
-      color: #666;
+      color: var(--ore);
       margin-bottom: 6px;
+      font-weight: 500;
     }
 
     select,
@@ -57,12 +86,19 @@
       width: 100%;
       padding: 12px 14px;
       font-size: 15px;
-      border: 1px solid #d5d3c9;
+      border: 1px solid var(--parchment-2);
       border-radius: 10px;
       background: #fff;
-      color: #1a1a18;
+      color: var(--ink);
       margin-bottom: 16px;
       appearance: none;
+    }
+
+    select:focus,
+    input[type="number"]:focus {
+      border-color: var(--wheat);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(212,168,67,0.3);
     }
 
     .player-colors {
@@ -80,7 +116,7 @@
 
     .player-color-row span {
       font-size: 14px;
-      color: #555;
+      color: var(--ore);
       min-width: 90px;
     }
 
@@ -104,18 +140,19 @@
     }
 
     .btn-primary {
-      background: #1a1a18;
+      background: var(--brick);
       color: #fff;
     }
 
     .btn-primary:disabled {
-      background: #999;
+      background: var(--ore);
+      opacity: 0.5;
     }
 
     .btn-secondary {
-      background: #fff;
-      color: #1a1a18;
-      border: 1px solid #d5d3c9;
+      background: var(--desert);
+      color: var(--ink);
+      border: 1px solid var(--parchment-2);
     }
 
     .btn + .btn {
@@ -138,27 +175,28 @@
       padding: 12px 16px;
       background: #fff;
       border-radius: 12px;
-      border: 1px solid #e5e3db;
+      border: 2px solid transparent;
       font-size: 14px;
-      color: #555;
+      color: var(--ore);
     }
 
     .player-info.active {
-      border-color: #3878d8;
-      background: #f0f5ff;
-      color: #1a1a18;
+      border-color: var(--wheat);
+      background: #fdf6e3;
+      color: var(--ink);
       font-weight: 600;
+      box-shadow: 0 2px 8px rgba(212,168,67,0.3);
     }
 
     .player-info.placing-both {
-      border-color: #e07b00;
-      background: #fff8ee;
-      color: #1a1a18;
+      border-color: var(--brick);
+      background: #fdf0eb;
+      color: var(--ink);
     }
 
     .color-dot {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       flex-shrink: 0;
     }
@@ -170,9 +208,9 @@
     .placement-badge {
       font-size: 11px;
       font-weight: 600;
-      background: #e07b00;
+      background: var(--brick);
       color: #fff;
-      padding: 2px 7px;
+      padding: 2px 8px;
       border-radius: 20px;
     }
 
@@ -180,8 +218,8 @@
       text-align: center;
       font-size: 13px;
       font-weight: 600;
-      color: #3878d8;
-      background: #eef4ff;
+      color: #fff;
+      background: var(--ocean);
       padding: 10px;
       border-radius: 10px;
       margin-bottom: 16px;
@@ -199,33 +237,38 @@
       font-weight: 700;
       min-width: 90px;
       transition: color 0.3s;
+      color: var(--ink);
     }
 
     .timer-num.running {
-      color: #3a9e5f;
+      color: var(--wood);
     }
 
     .bar-track {
       flex: 1;
-      height: 10px;
-      background: #e5e3db;
-      border-radius: 5px;
+      height: 12px;
+      background: var(--parchment-2);
+      border-radius: 6px;
       overflow: hidden;
     }
 
     .bar-fill {
       height: 100%;
       width: 100%;
-      background: #3878d8;
+      background: var(--ocean);
       transition: width 1s linear, background 0.3s;
     }
 
+    .bar-fill.running {
+      background: var(--wood);
+    }
+
     .bar-fill.low {
-      background: #d84545;
+      background: var(--brick);
     }
 
     .times-up {
-      color: #d84545;
+      color: var(--brick);
     }
 
     .play-buttons {
@@ -245,24 +288,25 @@
     }
 
     #playStartBtn {
-      background: #1a1a18;
+      background: var(--ink);
       color: #fff;
     }
 
     #playStartBtn:disabled {
-      background: #999;
+      background: var(--ore);
+      opacity: 0.5;
     }
 
     #robberBtn {
-      background: #fff;
-      color: #d84545;
-      border: 1px solid #d84545;
+      background: var(--desert);
+      color: var(--brick);
+      border: 1px solid var(--brick);
     }
 
     #nextBtn {
-      background: #fff;
-      color: #1a1a18;
-      border: 1px solid #d5d3c9;
+      background: var(--desert);
+      color: var(--ink);
+      border: 1px solid var(--parchment-2);
       margin-top: 10px;
     }
   </style>

@@ -98,6 +98,7 @@ function updateDOM() {
   const pct = calcPercent(state.timeLeft, state.totalTime);
   barEl.style.width = pct + '%';
   barEl.classList.toggle('low', isLow(state.timeLeft));
+  barEl.classList.toggle('running', state.isRunning && !done);
 }
 
 function updatePlayButton() {
