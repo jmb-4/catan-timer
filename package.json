@@ -1,0 +1,14 @@
+{
+  "name": "party-timer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test tests/ui",
+    "test:unit": "playwright test tests/unit",
+    "serve": "http-server . -p 3000"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}

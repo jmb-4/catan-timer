@@ -13,8 +13,8 @@
  */
 
 export function buildSetupSequence(playerCount) {
-  const forward  = range(0, playerCount);                   // [0, 1, …, n-1]
-  const backward = range(playerCount - 1, -1);              // [n-1, n-2, …, 0]
+  const forward   = range(0, playerCount, 1);   // [0, 1, …, n-1]
+  const backward = range(playerCount - 1, -1, -1); // [n-1, …, 0]
 
   const forwardSteps  = forward.map(i => makeStep(i, 1, false));
   const backwardSteps = backward.map(i => makeStep(i, 2, true));
@@ -26,9 +26,9 @@ function makeStep(playerIndex, placementNumber, doubleTime) {
   return { playerIndex, placementNumber, doubleTime };
 }
 
-function range(start, end) {
+function range(start, end, step) {
   const result = [];
-  for (let i = start; i < end; i++) result.push(i);
+  for (let i = start; (step > 0 ? i < end : i > end); i += step) result.push(i);
   return result;
 }
 

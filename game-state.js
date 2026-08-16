@@ -7,43 +7,35 @@ export const PHASES = {
   PLAY:  'play',
 };
 
-export const PLAYER_STATES = {
-  WAITING:    'waiting',
-  ACTIVE:     'active',
-  PLACING_2:  'placing-2', // letzter Spieler setzt 2 Siedlungen
-};
-
 let state = {
   phase:              PHASES.SETUP,
-  players:            [],         // [{ name, color }]
+  players:            [],
   playerCount:        4,
   setupTime:          60,
   actionTime:         60,
-  // Setup
-  setupSequence:      [],        // [{ playerIndex, placementNumber, doubleTime }]
-  setupStep:          0,         // Index in setupSequence
-  // Play
-  currentPlayerIndex: 0,         // 0-based im Play
+  setupSequence:      [],
+  setupStep:          0,
+  currentPlayerIndex: 0,
 };
 
 export function initGame(players, setupTime, actionTime) {
-  const playerCount = players.length;
-  state.players      = players;
-  state.setupTime    = setupTime;
-  state.actionTime   = actionTime;
-  state.playerCount  = playerCount;
+  state.players       = players;
+  state.playerCount   = players.length;
+  state.setupTime     = setupTime;
+  state.actionTime    = actionTime;
   state.phase        = PHASES.SETUP;
-  state.setupStep    = 0;
+  state.setupStep     = 0;
   state.currentPlayerIndex = 0;
-
-  // Setup-Sequence berechnen
-  state.setupSequence = buildSequence(playerCount);
+  state.setupSequence = buildSequence(players.length);
 }
 
-export function getPhase()         { return state.phase; }
-export function getPlayers()      { return state.players; }
-export function getSetupStep()    { return state.setupStep; }
+export function getPhase()              { return state.phase; }
+export function getPlayers()            { return state.players; }
+export function getSetupStep()           { return state.setupStep; }
 export function getCurrentPlayerIndex() { return state.currentPlayerIndex; }
+export function getSetupTime()          { return state.setupTime; }
+export function getActionTime()         { return state.actionTime; }
+export function getPlayerCount()        { return state.playerCount; }
 
 export function getCurrentSetupStep() {
   return state.setupSequence[state.setupStep] ?? null;
