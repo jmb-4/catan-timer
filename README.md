@@ -21,7 +21,7 @@ A timer app for The Settlers of Catan — built as a single-page HTML/JS app wit
 python3 -m http.server 3123
 ```
 
-Then open [http://localhost:3123/party-timer.html](http://localhost:3123/party-timer.html) in your browser.
+Then open [http://localhost:3123/catan-timer.html](http://localhost:3123/catan-timer.html) in your browser.
 
 ## Run Tests
 
@@ -33,9 +33,9 @@ npx playwright test
 ## Project Structure
 
 ```
-party-timer/
-├── party-timer.html          # Entry point
-├── party-timer.js            # Main app / screen router
+catan-timer/
+├── catan-timer.html          # Entry point
+├── catan-timer.js            # Main app / screen router
 ├── config.js                 # Configuration constants
 ├── game-state.js             # Game state machine
 ├── timer.js                  # Timer UI component

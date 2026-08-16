@@ -14,8 +14,8 @@ Single-page Catan (Settlers) timer app: setup phase (player placements) → play
 
 ```
 *.js          — feature modules (game-state, timer, setup-logic, etc.)
-party-timer.html — single HTML entry point
-party-timer.js   — orchestrator: imports all modules, wires events, init
+catan-timer.html — single HTML entry point
+catan-timer.js   — orchestrator: imports all modules, wires events, init
 playwright.config.ts — test config (unit + ui projects, web server)
 tests/
   unit/      — pure-function tests (Vitest-style via Playwright runner)
@@ -38,7 +38,7 @@ All game state lives in `game-state.js` as a module-level singleton. Never rely 
 ### Test isolation (critical)
 
 `game-state.js` state is a singleton. Unit tests modify it and it persists in the same process. This means:
-- **Always call `resetState()`** in `party-timer.js` init block
+- **Always call `resetState()`** in `catan-timer.js` init block
 - Unit tests that call `initGame()` or mutators must not leak state to UI tests
 - UI tests navigate fresh pages — if state is polluted, `renderSetupPhase()` returns early and the setup screen is empty
 
@@ -63,7 +63,7 @@ CI=true npx playwright test tests/ui/play-screen.spec.ts
 ### Test style
 
 - Test names: `feature: description` (e.g. `play: next button advances setup step`)
-- UI tests: navigate via `page.goto('/party-timer.html')`, never assume state
+- UI tests: navigate via `page.goto('/catan-timer.html')`, never assume state
 - Prefer `toHaveCount` and `toBeVisible` over screenshot/visual diff
 - Timeouts: 5000ms default, 3000ms for timer ticks
 
