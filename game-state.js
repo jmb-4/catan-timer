@@ -12,7 +12,7 @@ export const PHASES = {
 let state = {
   phase:              PHASES.SETUP,
   players:            [],
-  playerCount:        4,
+  playerCount:        6,
   setupTime:          60,
   actionTime:         60,
   setupSequence:      [],

@@ -17,6 +17,7 @@ import {
   getSetupTime,
 } from './game-state.js';
 import { resetTimer, addTime, pauseTimer } from './timer.js';
+import { ROBBER_BONUS } from './config.js';
 
 /* ── Screen refs ─────────────────────────────────────────── */
 
@@ -103,13 +104,7 @@ export function showPlayScreen() {
   renderPlayScreen();
 }
 
-export function hidePlayScreen() {
-  playScreen.classList.remove('active');
-}
 
-export function hideSetupScreen() {
-  setupScreen.classList.remove('active');
-}
 
 /* ── Event wiring (called by orchestrator) ─────────────────── */
 
@@ -126,7 +121,7 @@ export function wirePlayScreenEvents({ onBack }) {
   });
 
   robberBtn.addEventListener('click', () => {
-    addTime(15);
+    addTime(ROBBER_BONUS);
   });
 
   backBtn.addEventListener('click', () => {

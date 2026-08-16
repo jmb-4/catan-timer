@@ -3,10 +3,11 @@
  */
 
 import { formatTime, calcPercent, isLow } from './timer-logic.js';
+import { DEFAULT_SETUP_TIME } from './config.js';
 
 let state = {
-  timeLeft:  60,
-  totalTime:  60,
+  timeLeft:  DEFAULT_SETUP_TIME,
+  totalTime:  DEFAULT_SETUP_TIME,
   isRunning:  false,
   intervalId: null,
 };
@@ -72,8 +73,8 @@ export function isRunning() {
 
 /** Setzt den gesamten Timer-State zurück (inkl. intervalId) */
 export function resetAll() {
-  state.timeLeft  = 75;
-  state.totalTime = 75;
+  state.timeLeft  = DEFAULT_SETUP_TIME;
+  state.totalTime = DEFAULT_SETUP_TIME;
   state.isRunning = false;
   if (state.intervalId !== null) {
     clearInterval(state.intervalId);
