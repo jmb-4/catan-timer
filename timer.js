@@ -72,8 +72,8 @@ export function isRunning() {
 
 /** Setzt den gesamten Timer-State zurück (inkl. intervalId) */
 export function resetAll() {
-  state.timeLeft  = 60;
-  state.totalTime = 60;
+  state.timeLeft  = 75;
+  state.totalTime = 75;
   state.isRunning = false;
   if (state.intervalId !== null) {
     clearInterval(state.intervalId);
@@ -93,6 +93,7 @@ function updateDOM() {
 
   timerEl.textContent = done ? "Zeit abgelaufen" : formatTime(state.timeLeft);
   timerEl.classList.toggle('times-up', done);
+  timerEl.classList.toggle('running', state.isRunning && !done);
 
   const pct = calcPercent(state.timeLeft, state.totalTime);
   barEl.style.width = pct + '%';
@@ -107,7 +108,7 @@ function updatePlayButton() {
     btn.textContent = 'Abgelaufen';
     btn.disabled   = true;
   } else {
-    btn.textContent = 'Weiter';
+    btn.textContent = 'Start';
     btn.disabled   = false;
   }
 }

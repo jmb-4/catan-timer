@@ -189,6 +189,19 @@ test('play: bar turns red below 10 seconds', async ({ page }) => {
   await expect(page.locator('#bar')).toHaveClass(/low/);
 });
 
+test('play: timer number turns green when running', async ({ page }) => {
+  await page.goto('/party-timer.html');
+  await page.locator('#startBtn').click();
+  await page.locator('#playStartBtn').click();
+  await expect(page.locator('#timer')).toHaveClass(/running/);
+});
+
+test('play: timer number is not green when idle', async ({ page }) => {
+  await page.goto('/party-timer.html');
+  await page.locator('#startBtn').click();
+  await expect(page.locator('#timer')).not.toHaveClass(/running/);
+});
+
 /* ── Back Button ───────────────────────────────────────────────────────── */
 
 test('play: back button returns to setup screen', async ({ page }) => {

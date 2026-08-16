@@ -12,8 +12,8 @@ export const PLAYER_COLORS = [
   { name: 'Grün',   value: '#3a9e5f' },
 ];
 
-export const DEFAULT_SETUP_TIME  = 60;
-export const DEFAULT_ACTION_TIME = 60;
+export const DEFAULT_SETUP_TIME  = 75;
+export const DEFAULT_ACTION_TIME = 45;
 export const ROBBER_BONUS       = 15;
 export const MIN_TIME           = 10;
 export const MAX_TIME           = 300;

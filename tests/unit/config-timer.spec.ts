@@ -43,10 +43,10 @@ test('PLAYER_COLORS has at least 6 colors', async () => {
   expect(PLAYER_COLORS.length).toBeGreaterThanOrEqual(6);
 });
 
-test('DEFAULT_SETUP_TIME = 60, DEFAULT_ACTION_TIME = 60', async () => {
+test('DEFAULT_SETUP_TIME = 75, DEFAULT_ACTION_TIME = 45', async () => {
   const mod = await import('../../config.js');
-  expect(mod.DEFAULT_SETUP_TIME).toBe(60);
-  expect(mod.DEFAULT_ACTION_TIME).toBe(60);
+  expect(mod.DEFAULT_SETUP_TIME).toBe(75);
+  expect(mod.DEFAULT_ACTION_TIME).toBe(45);
 });
 
 test('ROBBER_BONUS = 15', async () => {

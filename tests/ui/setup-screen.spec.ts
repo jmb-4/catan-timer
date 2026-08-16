@@ -13,14 +13,14 @@ test('setup: shows player count select with 5 options', async ({ page }) => {
   await expect(options).toHaveCount(5);
 });
 
-test('setup: shows setup time input with default 60', async ({ page }) => {
+test('setup: shows setup time input with default 75', async ({ page }) => {
   await page.goto('/party-timer.html');
-  await expect(page.locator('#setupTime')).toHaveValue('60');
+  await expect(page.locator('#setupTime')).toHaveValue('75');
 });
 
-test('setup: shows action time input with default 60', async ({ page }) => {
+test('setup: shows action time input with default 45', async ({ page }) => {
   await page.goto('/party-timer.html');
-  await expect(page.locator('#actionTime')).toHaveValue('60');
+  await expect(page.locator('#actionTime')).toHaveValue('45');
 });
 
 test('setup: shows start button', async ({ page }) => {
