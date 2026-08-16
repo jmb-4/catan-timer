@@ -120,14 +120,14 @@ function renderSetupPhase() {
 
   playerListEl.innerHTML = players.map((p, i) => {
     const isActive   = i === step.playerIndex;
-    const isPlacing2 = step.doubleTime && i === step.playerIndex;
+    const isPlacing2 = step.placementNumber === 2 && i === step.playerIndex;
 
-    let badge = '';
-    if (isActive) {
-      badge = isPlacing2
-        ? '<span class="placement-badge">2×</span>'
-        : '<span class="placement-badge">1×</span>';
-    }
+ let badge = '';
+ if (isActive) {
+   badge = isPlacing2
+     ? '<span class="placement-badge">2</span>'
+     : '<span class="placement-badge">1</span>';
+ }
 
     const borderStyle = p.color === '#f4f3ef' ? 'border: 1px solid #ccc' : '';
     return `
@@ -139,8 +139,7 @@ function renderSetupPhase() {
   }).join('');
 
   const baseTime = getSetupTime();
-  const time     = step.doubleTime ? baseTime * 2 : baseTime;
-  resetTimer(time);
+  resetTimer(baseTime);
 }
 
 function renderPlayPhase() {

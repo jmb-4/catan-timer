@@ -25,16 +25,15 @@ test('play: first player is active on setup', async ({ page }) => {
 test('play: active player has badge showing placement number', async ({ page }) => {
   await page.goto('/party-timer.html');
   await page.locator('#startBtn').click();
-  await expect(page.locator('.placement-badge').first()).toContainText('1×');
+  await expect(page.locator('.placement-badge').first()).toContainText('1');
 });
 
-test('play: active player shows 2× badge in backward phase', async ({ page }) => {
+test('play: active player shows 2 badge in backward phase', async ({ page }) => {
   await page.goto('/party-timer.html');
-  // Default 6 players → 6 forward steps, then backward starts
   await page.locator('#playerCount').selectOption('4');
   await page.locator('#startBtn').click();
   for (let i = 0; i < 4; i++) await page.locator('#nextBtn').click();
-  await expect(page.locator('.placement-badge')).toContainText('2×');
+  await expect(page.locator('.placement-badge')).toContainText('2');
 });
 
 test('play: timer uses setup time on start', async ({ page }) => {
@@ -44,14 +43,14 @@ test('play: timer uses setup time on start', async ({ page }) => {
   await expect(page.locator('#timer')).toHaveText('45');
 });
 
-test('play: backward steps use double setup time', async ({ page }) => {
+test('play: backward steps use same setup time', async ({ page }) => {
   await page.goto('/party-timer.html');
   await page.locator('#setupTime').fill('30');
   await page.locator('#playerCount').selectOption('4');
   await page.locator('#startBtn').click();
   for (let i = 0; i < 4; i++) await page.locator('#nextBtn').click();
-  // First backward step: double of 30 = 60
-  await expect(page.locator('#timer')).toHaveText('60');
+  // No multiplier — same setup time
+  await expect(page.locator('#timer')).toHaveText('30');
 });
 
 test('play: next button advances setup step', async ({ page }) => {
