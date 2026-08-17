@@ -21,14 +21,30 @@ const startBtn     = $('startBtn');
 
 export function renderColorRows() {
   const count = parseInt(playerCount.value, 10);
-  const players = getPlayers();
+
+  // Read current selections from DOM before clearing
+  const currentSelections = Array.from(
+    colorList.querySelectorAll('.player-color')
+  ).map(sel => sel.value);
+
+  const statePlayers = getPlayers();
   colorList.innerHTML = '';
 
+  // Build the list of chosen colors as we go
+  const chosen = [];
+
   for (let i = 0; i < count; i++) {
-    const existing = players[i]?.color ?? PLAYER_COLORS.map(c => c.value).find(
-      c => !players.slice(0, i).map(p => p.color).includes(c)
-    );
-    const usedColors = players.slice(0, i).map(p => p.color);
+    // Prefer DOM selection, fall back to state, then first available
+    const domColor   = currentSelections[i];
+    const stateColor = statePlayers[i]?.color;
+
+    let existing = domColor ?? stateColor;
+    if (chosen.includes(existing) || !existing) {
+      existing = PLAYER_COLORS.map(c => c.value).find(
+        c => !chosen.includes(c)
+      );
+    }
+    chosen.push(existing);
 
     const row = document.createElement('div');
     row.className = 'player-color-row';
@@ -36,7 +52,7 @@ export function renderColorRows() {
       <span>Spieler ${i + 1}</span>
       <select class="player-color" data-index="${i}">
         ${PLAYER_COLORS.map(c => {
-          const disabled = usedColors.includes(c.value) ? 'disabled' : '';
+          const disabled = chosen.slice(0, i).includes(c.value) ? 'disabled' : '';
           const selected = c.value === existing ? 'selected' : '';
           return `<option value="${c.value}" ${selected} ${disabled}>${c.name}</option>`;
         }).join('')}
@@ -71,6 +87,10 @@ export function showSetupScreen() {
 
 export function wireSetupScreenEvents({ onStart }) {
   playerCount.addEventListener('change', () => {
+    renderColorRows();
+  });
+
+  colorList.addEventListener('change', () => {
     renderColorRows();
   });
 
